@@ -46,9 +46,40 @@ public class TeamMaker
       System.out.println(Arrays.toString(row));
       }
       
+      //Eventually change to input from scanner for desired size of team. 
+      //Right now assume 5 people per team
+      //Find number of teams that I can make
+      int NumberOfTeams = allRows.size()/5;
+      System.out.println(NumberOfTeams);
+      
+      
+      //Sort into teams based on proximity to average, prioritizing equal
+      //gender ratio, then rating, then height
+     
+      //Create LinkedList Array to hold the forming teams, needs weird declaration format 
+      //because Java doesnt like LinkedList arrays apparently
+      LinkedList<String[]>[] TeamsSorted = (LinkedList<String[]>[]) new LinkedList<?>[NumberOfTeams];
+      //Create Player Bank that will shrink as players are added to teams
+      //how do i access the inner linkedlist??? maybe make everything an array instead of a list?
+      LinkedList<String[]> PlayerBank = allRows;
+      
+      //make method to determine if below/above average and then add it to list?
+      //method to determine difference from average and prioritize group with most
+      //important difference category, allow it to search for an equalizer 1st
+      
+      FindDiff(allRows, allRows);
+//      for (String[] row : PlayerBank) {
+//    	  for(int i)
+//    	  TeamsSorted[0].add(row);
+//      }
+      
+      
+      
       FindAverage(allRows);
    }
   
+   
+   
    //For calculating the average score of a list, returns a double array 
    //containing average rating, average height, and average gender number
    public static double[] FindAverage(LinkedList<String[]> playerData) {
@@ -80,6 +111,20 @@ public class TeamMaker
 	   System.out.println(Arrays.toString(average));
 	   return average;
 	}
+
+   //Method to be called to find the difference between one team being built
+   //and the average stats, to be called in main method iterating over each team
+   //in the linkedlist array
+   public static double[] FindDiff(LinkedList<String[]> Team, LinkedList<String[]> allRows) {
+	   double[] difference = new double[3];
+	   for(int i = 0; i < FindAverage(Team).length; i++) {
+		   difference[i]=FindAverage(Team)[i]-FindAverage(allRows)[i];
+	   }
+	   System.out.println(Arrays.toString(difference));
+	   return difference;
+   }
+   
+  
 	 
 }
 
