@@ -7,12 +7,16 @@
 
 import java.io.FileReader;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
+
 
 //running old version of openCSV because I am on an old computer that 
 //only supports Java 1.6
 import au.com.bytecode.opencsv.CSVReader;
-
 import java.util.List;
 import java.util.LinkedList;
  
@@ -28,22 +32,19 @@ public class TeamMaker
       //Start reading from line number 2 (line numbers start from zero)
       CSVReader reader = new CSVReader(new FileReader("sample_player_data.csv"), ',' , '"' , 1);
     
-     //Read CSV line by line, while sorting the list by adding first males 
-      //then females to the front of Linked List. 
+      //Read CSV line by line creating and adding Player objects to my list
       String[] nextLine;
-      LinkedList<String[]> allRows = new LinkedList();
+      List<Player> allRows = new ArrayList<Player>();
       while ((nextLine = reader.readNext()) != null) {
          if (nextLine != null){
-        	 if(nextLine[3].equals("M")) {
-        		 allRows.addFirst(nextLine);
-        	 }else{
-        		 allRows.add(nextLine);
-        	 }
+              allRows.add(new Player(Integer.parseInt(nextLine[0]), Double.parseDouble(nextLine[1]), Double.parseDouble(nextLine[2]), nextLine[3]));
          }
        }
-
-      for(String[] row : allRows) {
-      System.out.println(Arrays.toString(row));
+      
+      Collections.sort(allRows, new Player());
+      
+      for(Player a : allRows) {
+          System.out.println(a.GetPlayerNumber()+ ": " + a.GetPlayerRating() + " " + a.GetPlayerHeight() + " " + a.GetPlayerGender());
       }
       
       //Eventually change to input from scanner for desired size of team. 
@@ -52,31 +53,84 @@ public class TeamMaker
       int NumberOfTeams = allRows.size()/5;
       System.out.println(NumberOfTeams);
       
+      //Create List Array to hold the forming teams, needs weird declaration format 
+      //because Java doesnt like List arrays apparently
+      List<Player>[] TeamsSorted = (List<Player>[]) new List<?>[NumberOfTeams];
       
-      //Sort into teams based on proximity to average, prioritizing equal
-      //gender ratio, then rating, then height
-     
-      //Create LinkedList Array to hold the forming teams, needs weird declaration format 
-      //because Java doesnt like LinkedList arrays apparently
-      LinkedList<String[]>[] TeamsSorted = (LinkedList<String[]>[]) new LinkedList<?>[NumberOfTeams];
-      //Create Player Bank that will shrink as players are added to teams
-      //how do i access the inner linkedlist??? maybe make everything an array instead of a list?
-      LinkedList<String[]> PlayerBank = allRows;
+      Player[] PlayerArray = (Player[])allRows.toArray(new Player[allRows.size()]);
       
-      //make method to determine if below/above average and then add it to list?
-      //method to determine difference from average and prioritize group with most
-      //important difference category, allow it to search for an equalizer 1st
+      int j=0; //to iterate through all Rows of PlayerArray
+      //makinf null pointer exception....
+      while(j<allRows.size()) {
+    	  for(int i = 0; i<NumberOfTeams; i++) {
+    		 // TeamsSorted[i].add(new Player(1, 1.0, 180.0, "M"));
+	    	  TeamsSorted[i].add(PlayerArray[j]);
+	    	  j++;
+          }
+      }
       
-      FindDiff(allRows, allRows);
-//      for (String[] row : PlayerBank) {
-//    	  for(int i)
-//    	  TeamsSorted[0].add(row);
+      //Print out the sorted teams
+      for(List<Player> a : TeamsSorted) {
+    	  for(int i = 0; i < a.size(); i++) {
+	    	  System.out.println("Team" + i);
+	          System.out.println(a.get(i).GetPlayerNumber()+ ": " + a.get(i).GetPlayerRating() + " " + a.get(i).GetPlayerHeight() + " " + a.get(i).GetPlayerGender());
+    	  }
+      }
+    	  
+	      
+      
+      
+      
+      
+      
+      
+     //Sort based on player rating
+     //temp int to save value of previous row
+     //Create Player Bank that will shrink as players are added to teams
+      
+      //
+      
+//      int temp=0;
+//      int indexCount = 0;
+//      for(String[] row : allRows) {
+//    	  if(Integer.parseInt(row[1])>temp) {
+//    		  allRows.add(indexCount, row);
+//    	  }
+//    	  temp = Integer.parseInt(row[1]);
+//    	  indexCount++;
+//      }
+//
+//      for(String[] row : allRows) {
+//      System.out.println(Arrays.toString(row));
 //      }
       
       
       
-      FindAverage(allRows);
-   }
+      
+      //Sort into teams based on proximity to average, prioritizing equal
+      //gender ratio, then rating, then height
+     
+      
+  
+      //method to determine difference from average and prioritize group with most
+      //important difference category, allow it to search for an equalizer 1st
+      
+      //iterate through each entry in the PlayerBank
+      
+//    	  //Build array containing the differences between each team and the ave
+//	  for(int i = 0; i<TeamsSorted.length; i++) {
+//		  FindDiff(TeamsSorted[i], allRows);
+//		  FindDiff(PlayerBank[i], allRows);
+//		  for (int j = 0; j<PlayerBank.length; j++) {
+//			  FindDiff(TeamsSorted[i], PlayerBank[j]);
+//		  }
+		  //TeamsSorted[0].add(row);
+	  }
+      
+      
+      
+//      FindAverage(allRows);
+   
   
    
    
