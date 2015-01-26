@@ -83,24 +83,26 @@ public class TeamMaker
 		    }
 	  	  positionInMap++;
 	    } 	
-      //Print out the sorted teams and find averages of teams (maybe move to 
-      //separate method later
-      //iterate through each map
-      int i = 0;
+  	  
+  	  //eventually improve choose algorithm to utilize FindAverage and allow 
+  	  //lowest ranked teams to pick higher ranked and/or leftover players
       
 	   //In the future I would like to make the code independent of a fixed
 	   //table structure, but for this version, I am going to use what I know 
 	   //about my table structure to simplify sorting.
-      
+  	  
+      //Print out the sorted teams and find averages of teams (maybe move to 
+      //separate method later)
+  	  
+      int i = 0; //keep track of which map we are on to get value
       //Create an array to hold the arrays containing the average metrics for 
       //each team
       double[][] average = new double[TeamsSorted.size()][3];
       //iterate through each team printing the list of players and simultaneously
-      //finding average
+      //summing player stats into an array to find average stats
       for(Map<String, Player> a : TeamsSorted) {
-		   //keep track of which map we are on to get value
-    	  //iterate through each Player
-    	  System.out.println("Team: " + i);
+    	  //iterate through each Player on each team
+    	  System.out.println("Team " + i + ": ");
 		  for(int k =1; k<=a.size(); k++){
 			  System.out.println(a.get(i + "." + k).GetPlayerNumber() + ": " + 
 			      a.get(i + "." + k).GetPlayerRating() + ", " +  
@@ -115,97 +117,35 @@ public class TeamMaker
 		  i++;
        }
       
-   
-      int teamPositionSum = 0;
-      double[] sum = new double[3];
-      //sum all averages to get a total to compare
+      int teamPositionSum = 0; //keep track of which team I am in
+      double[] sum = new double[3]; //to store sum of skills 
+      double[] totalAverage = new double[3]; //to store average of skills
+      //sum all averages to get a total sum to check my work
       for(Map<String, Player> a : TeamsSorted) {
 	      for( int metric=0; metric < 3; metric++) {
 	    	  sum[metric]= sum[metric] + average[teamPositionSum][metric];
 		   }
 	      teamPositionSum++;
 	  }
-      System.out.println("Team Sum: ");
-      System.out.println(Arrays.toString(sum));
+      //average all player scores to check my work
+      for( int metric=0; metric < 3; metric++) {
+    	  totalAverage[metric]= sum[metric]/allRows.size();
+	   }
+
+      System.out.println("Player Skill Sum: " + Arrays.toString(sum));
+      System.out.println("Total Player Skill Average: " + Arrays.toString(totalAverage));
       
-      //Average sum and print averages
+      //Average sum of skills on each team and print averages
       int teamPosition = 0;
       for(Map<String, Player> a : TeamsSorted) {
 	      for( int metric=0; metric < 3; metric++) {
 	    	  average[teamPosition][metric]=average[teamPosition][metric]/a.size();
 		   }
-	      System.out.println("Team Average " + teamPosition + ": ");
+	      System.out.print("Team Average " + teamPosition + ": ");
 	      System.out.println(Arrays.toString(average[teamPosition]));
 	      teamPosition++;
 	  }
-   }
-
-   
-  
-   
-   
-//   //For calculating the average score of a list, returns a double array 
-//   //containing average rating, average height, and average gender number
-//   //Print out sorted teams
-//   public static double[][] FindAverage(List<Map<String, Player>> teamList) {
-//	      int i = 0;
-//	    
-//		   //In the future I would like to make the code independent of a fixed
-//		   //table structure, but for this version, I am going to use what I know 
-//		   //about my table structure to simplify sorting.
-//	      
-//	      //Create an array to hold the arrays containing the average metrics for 
-//	      //each team
-//	      double[][] average = new double[teamList.size()][3];
-//	      //iterate through each team printing the list of players and simultaneously
-//	      //finding average
-//	      for(Map<String, Player> a : teamList) {
-//			   //keep track of which map we are on to get value
-//	    	  //iterate through each Player
-//	    	  System.out.println("Team: " + i);
-//			  for(int k =1; k<=a.size(); k++){
-//				  System.out.println(a.get(i + "." + k).GetPlayerNumber() + ": " + 
-//				      a.get(i + "." + k).GetPlayerRating() + ", " +  
-//					  a.get(i + "." + k).GetPlayerHeight() + ", " + 
-//				      a.get(i + "." + k).GetPlayerGender());
-//				  average[i][0] = average[i][0] + a.get(i + "." + k).GetPlayerRating();
-//				  average[i][1] = average[i][1] + a.get(i + "." + k).GetPlayerHeight();
-//				  if (a.get(i + "." + k).GetPlayerGender().equals("F")) {
-//					   average[i][2] = average[i][2] + 1;
-//				   }
-//			  }
-//			  i++;
-//	       }
-//	      
-//	    //Average sum and print averages
-//	      int teamPosition = 0;
-//	      for(Map<String, Player> a : teamList) {
-//		      for( int metric=0; metric < average[teamPosition].length; metric++) {
-//				   average[teamPosition][metric]=average[teamPosition][metric]/a.size();
-//			   }
-//		      System.out.println("Team" + teamPosition + ": ");
-//		      System.out.println(Arrays.toString(average[teamPosition]));
-//		      teamPosition++;
-//		  }
-//	   return average;
-//	}
-//   
-   
-
-   //Method to be called to find the difference between one team being built
-   //and the average stats, to be called in main method iterating over each team
-   //in the linkedlist array
-//   public static double[] FindDiff(LinkedList<String[]> Team, LinkedList<String[]> allRows) {
-//	   double[] difference = new double[3];
-//	   for(int i = 0; i < FindAverage(Team).length; i++) {
-//		   difference[i]=FindAverage(Team)[i]-FindAverage(allRows)[i];
-//	   }
-//	   System.out.println(Arrays.toString(difference));
-//	   return difference;
-//   }
-   
-  
-	 
+   }	 
 }
 
 

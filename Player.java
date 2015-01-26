@@ -1,5 +1,8 @@
-import java.util.Comparator;
+//Makes a Player Object that accepts stats from the input csv file
+//Makes a Comparator to sort the players 
+//Sorts the players based on 1) Gender, 2) Rating, 3) Height
 
+import java.util.Comparator;
 
 public class Player implements Comparator<Player>{
 	public int playerNumber;
@@ -33,12 +36,14 @@ public class Player implements Comparator<Player>{
 		return gender;
 	}
 	
+	
+	//would be nice to change the comparison to count a small deviation as equal 
 	public int compare(Player a, Player b){
 		if(a.gender.equals("F") && b.gender.equals("M")) {
 			return 1;
-		}if (a.gender.equals(b.gender) && a.rating > b.rating) {
+		}if (a.gender.equals(b.gender) && a.rating < b.rating) {
 			return 1;
-		}if (a.gender.equals(b.gender) && a.rating == b.rating && a.height > b.height) {
+		}if (a.gender.equals(b.gender) && a.rating == b.rating && a.height < b.height) {
 			return 1;
 		} if (a.gender.equals(b.gender) && a.rating == b.rating && a.height == b.height) {
 			return 0;
