@@ -47,15 +47,17 @@ public class TeamMaker
       Collections.sort(allRows, new Player());
       
       //Print out sorted list of players
+      System.out.println("Sorted List of All Players:");
       for(Player a : allRows) {
-          System.out.println(a.GetPlayerNumber()+ ": " + a.GetPlayerRating() + " " + a.GetPlayerHeight() + " " + a.GetPlayerGender());
+          System.out.println(a.GetPlayerNumber()+ ": " + a.GetPlayerRating() + 
+        		  " " + a.GetPlayerHeight() + " " + a.GetPlayerGender());
       }
       
       //Eventually change to input from scanner for desired size of team. 
       //Right now assume 5 people per team
       //Find number of teams that I can make
       int NumberOfTeams = allRows.size()/5;
-      System.out.println(NumberOfTeams);
+      System.out.println("Number of Teams: " + NumberOfTeams);
       
       //Make a List of Maps to store my teams as they sort
       List<Map<String, Player>> TeamsSorted = new ArrayList<Map<String, Player>>();
