@@ -1,6 +1,6 @@
-//Makes a Player Object that accepts stats from the input csv file
-//Makes a Comparator to sort the players 
-//Sorts the players based on 1) Gender, 2) Rating, 3) Height
+/*Makes a Player Object that accepts stats from the input csv file
+Makes a Comparator to sort the players 
+Sorts the players based on 1) Gender, 2) Rating, 3) Height*/
 
 import java.util.Comparator;
 
